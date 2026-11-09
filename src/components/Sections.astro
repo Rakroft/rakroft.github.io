@@ -1,0 +1,172 @@
+---
+// Todas las secciones de la página. Los textos vienen de src/i18n/es.ts y en.ts.
+import SectionHeading from './SectionHeading.astro';
+import ProjectGrid from './ProjectGrid';
+import Icon from './Icon.astro';
+import { contact } from '../data/contact';
+import { useT, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const container = 'mx-auto max-w-6xl px-6 md:pl-16 md:pr-28';
+---
+
+<!-- HERO -->
+<section id="top" class={`${container} flex min-h-svh flex-col justify-end pb-14 pt-28 md:pb-16`}>
+  <div class="flex flex-1 flex-col justify-center">
+    <p class="flex items-center gap-2.5 text-sm text-muted" data-reveal>
+      <span class="relative flex size-2">
+        <span class="absolute inline-flex size-full animate-ping rounded-full bg-ink/40 motion-reduce:hidden"></span>
+        <span class="relative inline-flex size-2 rounded-full bg-ink"></span>
+      </span>
+      {t.hero.status}
+    </p>
+    <p class="mt-10 font-serif text-2xl italic text-muted md:text-3xl" data-reveal>{t.hero.hello}</p>
+    <h1 class="mt-2 font-serif text-[clamp(3.4rem,10vw,8.5rem)] leading-[0.92] tracking-tight" data-reveal>
+      Adrián Ortega<br /><span class="italic text-muted">Martínez</span>
+    </h1>
+    <p class="mt-10 max-w-xl text-lg leading-relaxed text-muted md:text-xl" data-reveal>{t.hero.role}</p>
+    <div class="mt-10 flex flex-wrap gap-3" data-reveal>
+      <a href="#projects" class="rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper transition hover:opacity-85">
+        {t.hero.ctaProjects}
+      </a>
+      <a href="#contact" class="rounded-full border border-ink/70 px-6 py-3 text-sm font-medium transition-colors hover:bg-ink hover:text-paper">
+        {t.hero.ctaContact}
+      </a>
+    </div>
+  </div>
+  <dl class="mt-20 grid gap-6 border-t border-line pt-6 text-sm sm:grid-cols-3" data-reveal>
+    {t.hero.facts.map((f) => (
+      <div>
+        <dt class="text-xs uppercase tracking-[0.18em] text-muted">{f.label}</dt>
+        <dd class="mt-1.5">{f.value}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<main>
+  <!-- 01 SOBRE MÍ -->
+  <section id="about" class={`${container} py-28 md:py-40`}>
+    <SectionHeading n="01" title={t.about.title} />
+    <div class="grid gap-16 md:grid-cols-12">
+      <div class="space-y-6 text-lg leading-relaxed md:col-span-7 md:text-xl" data-reveal>
+        {t.about.paragraphs.map((p, i) => <p class={i === 0 ? '' : 'text-muted'}>{p}</p>)}
+      </div>
+      <div class="space-y-12 md:col-span-4 md:col-start-9" data-reveal>
+        <div>
+          <h3 class="text-xs uppercase tracking-[0.18em] text-muted">{t.about.skillsTitle}</h3>
+          <ul class="mt-4">
+            {t.about.skills.map((s) => <li class="border-b border-line py-2.5">{s}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xs uppercase tracking-[0.18em] text-muted">{t.about.languagesTitle}</h3>
+          <ul class="mt-4">
+            {t.about.languages.map((l) => (
+              <li class="flex justify-between gap-4 border-b border-line py-2.5">
+                <span>{l.name}</span><span class="text-muted">{l.level}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 PROYECTOS (isla React con filtro) -->
+  <section id="projects" class={`${container} py-28 md:py-40`}>
+    <SectionHeading n="02" title={t.projects.title} intro={t.projects.intro} />
+    <div data-reveal>
+      <ProjectGrid
+        client:visible
+        projects={t.projects.items}
+        filters={t.projects.filters}
+        codeLabel={t.projects.code}
+        siteLabel={t.projects.site}
+      />
+    </div>
+  </section>
+
+  <!-- 03 FORMACIÓN -->
+  <section id="education" class={`${container} py-28 md:py-40`}>
+    <SectionHeading n="03" title={t.education.title} />
+    <ol class="border-t border-line">
+      {t.education.items.map((e) => (
+        <li class="grid gap-3 border-b border-line py-10 md:grid-cols-12 md:gap-8" data-reveal>
+          <p class="text-sm tabular-nums text-muted md:col-span-3 md:pt-2">{e.period}</p>
+          <div class="md:col-span-9">
+            <h3 class="font-serif text-3xl leading-tight md:text-4xl">
+              {e.title}
+              {e.current && (
+                <span class="ml-2 inline-block translate-y-[-0.35em] rounded-full border border-ink/60 px-2.5 py-0.5 align-middle font-sans text-[11px] tracking-wide">
+                  {t.education.current}
+                </span>
+              )}
+            </h3>
+            <p class="mt-2 text-sm font-medium">{e.place}</p>
+            <p class="mt-3 max-w-2xl text-muted">{e.description}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- 04 STACK -->
+  <section id="stack" class={`${container} py-28 md:py-40`}>
+    <SectionHeading n="04" title={t.stack.title} intro={t.stack.intro} />
+    <div class="grid gap-x-12 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+      {t.stack.groups.map((g, i) => (
+        <div data-reveal>
+          <h3 class="flex items-baseline gap-3 text-xs uppercase tracking-[0.18em] text-muted">
+            <span class="tabular-nums">{String(i + 1).padStart(2, '0')}</span>{g.name}
+          </h3>
+          <ul class="mt-4 border-t border-line">
+            {g.items.map((it) => (
+              <li class="flex items-baseline justify-between gap-4 border-b border-line py-3">
+                <span>{it.name}</span>
+                <span class="text-right text-sm text-muted">{it.detail}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 05 CONTACTO -->
+  <section id="contact" class={`${container} py-28 md:py-40`}>
+    <div class="flex items-center gap-4 text-xs tracking-[0.2em] text-muted" data-reveal>
+      <span class="tabular-nums">05</span><span class="h-px flex-1 bg-line"></span>
+    </div>
+    <div class="mt-6 grid gap-14 md:grid-cols-12">
+      <div class="md:col-span-7" data-reveal>
+        <h2 class="font-serif text-[clamp(3.2rem,9vw,7rem)] leading-none tracking-tight">{t.contact.title}</h2>
+        <p class="mt-8 max-w-lg text-lg leading-relaxed text-muted">{t.contact.text}</p>
+        <p class="mt-12 text-xs uppercase tracking-[0.18em] text-muted">{t.contact.emailLabel}</p>
+        <a href={`mailto:${contact.email}`} class="link-line mt-2 inline-block break-all pb-1 font-serif text-3xl md:text-5xl">
+          {contact.email}
+        </a>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a href={contact.github} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm transition-colors hover:border-ink">
+            <Icon name="github" class="size-4" /> GitHub <span class="text-muted">{contact.githubUser}</span>
+          </a>
+          <a href={contact.linkedin} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm transition-colors hover:border-ink">
+            <Icon name="linkedin" class="size-4" /> LinkedIn
+          </a>
+        </div>
+      </div>
+      <dl class="self-end md:col-span-4 md:col-start-9" data-reveal>
+        {t.contact.details.map((d) => (
+          <div class="border-b border-line py-4 first:border-t">
+            <dt class="text-xs uppercase tracking-[0.18em] text-muted">{d.label}</dt>
+            <dd class="mt-1">{d.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+</main>

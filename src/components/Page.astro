@@ -1,0 +1,21 @@
+---
+// Página completa; la usan /index.astro (español) y /en/index.astro (inglés).
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import ContactRail from './ContactRail.astro';
+import Sections from './Sections.astro';
+import Footer from './Footer.astro';
+import type { Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+<Base lang={lang}>
+  <Header lang={lang} />
+  <ContactRail />
+  <Sections lang={lang} />
+  <Footer lang={lang} />
+</Base>

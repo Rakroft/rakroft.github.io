@@ -1,0 +1,100 @@
+---
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle';
+import { contact } from '../data/contact';
+import { useT, homePath, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const nav = [
+  { id: 'about', n: '01', label: t.nav.about },
+  { id: 'projects', n: '02', label: t.nav.projects },
+  { id: 'education', n: '03', label: t.nav.education },
+  { id: 'stack', n: '04', label: t.nav.stack },
+];
+const langs: Lang[] = ['es', 'en'];
+---
+
+<header
+  data-header
+  class="fixed inset-x-0 top-0 z-40 border-b border-transparent transition-[background-color,border-color] duration-300 data-scrolled:border-line data-scrolled:bg-paper/75 data-scrolled:backdrop-blur-md"
+>
+  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-6 md:h-20 md:px-16">
+    <a href="#top" class="group flex items-center gap-3" aria-label={contact.name}>
+      <span class="grid size-9 place-items-center rounded-full border border-ink/80 font-serif text-lg leading-none">AO</span>
+      <span class="hidden text-sm font-medium tracking-tight sm:inline">Adrián Ortega</span>
+    </a>
+
+    <nav class="hidden lg:block" aria-label="Principal">
+      <ul class="flex items-center gap-8 text-sm">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={`#${item.id}`}
+              data-nav-link
+              class="link-line pb-0.5 text-muted transition-colors hover:text-ink aria-[current]:text-ink"
+            >
+              <span class="mr-1.5 text-[11px] tabular-nums">{item.n}</span>{item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-1 sm:gap-2">
+      <div class="hidden items-center text-xs tracking-wide sm:flex" aria-label={t.nav.language}>
+        {langs.map((l, i) => (
+          <>
+            {i > 0 && <span class="text-line">/</span>}
+            <a
+              href={homePath(l)}
+              hreflang={l}
+              class:list={['px-1.5 py-1 uppercase transition-colors', l === lang ? 'font-semibold text-ink' : 'text-muted hover:text-ink']}
+              aria-current={l === lang ? 'page' : undefined}
+            >{l}</a>
+          </>
+        ))}
+      </div>
+
+      <ThemeToggle client:load label={t.theme.toggle} />
+
+      <a
+        href="#contact"
+        class="ml-1 hidden rounded-full border border-ink px-4 py-1.5 text-sm transition-colors hover:bg-ink hover:text-paper sm:inline-block"
+      >{t.nav.contact}</a>
+
+      <!-- Menú móvil: <details> nativo, sin JavaScript necesario para abrir/cerrar -->
+      <details data-mobile-menu class="relative lg:hidden">
+        <summary class="grid size-9 cursor-pointer place-items-center rounded-full hover:bg-ink/5" aria-label={t.nav.menu}>
+          <Icon name="menu" class="size-5" />
+        </summary>
+        <div class="absolute right-0 top-full mt-3 w-64 rounded-2xl border border-line bg-paper/95 p-5 shadow-xl backdrop-blur-md">
+          <ul class="space-y-1 text-sm">
+            {[...nav, { id: 'contact', n: '05', label: t.nav.contact }].map((item) => (
+              <li>
+                <a href={`#${item.id}`} class="flex gap-3 rounded-lg px-2 py-2 hover:bg-ink/5">
+                  <span class="text-[11px] tabular-nums text-muted">{item.n}</span>{item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div class="mt-4 flex items-center justify-between border-t border-line pt-4">
+            <div class="flex gap-3 text-muted">
+              <a href={contact.github} target="_blank" rel="noopener" aria-label="GitHub" class="hover:text-ink"><Icon name="github" class="size-[18px]" /></a>
+              <a href={contact.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn" class="hover:text-ink"><Icon name="linkedin" class="size-[18px]" /></a>
+              <a href={`mailto:${contact.email}`} aria-label="Email" class="hover:text-ink"><Icon name="mail" class="size-[18px]" /></a>
+            </div>
+            <div class="flex gap-2 text-xs uppercase">
+              {langs.map((l) => (
+                <a href={homePath(l)} hreflang={l} class:list={[l === lang ? 'font-semibold' : 'text-muted']}>{l}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,17 @@
+---
+interface Props {
+  n: string;
+  title: string;
+  intro?: string;
+}
+const { n, title, intro } = Astro.props;
+---
+
+<div class="mb-14 md:mb-20" data-reveal>
+  <div class="flex items-center gap-4 text-xs tracking-[0.2em] text-muted">
+    <span class="tabular-nums">{n}</span>
+    <span class="h-px flex-1 bg-line"></span>
+  </div>
+  <h2 class="mt-6 font-serif text-5xl leading-none tracking-tight md:text-7xl">{title}</h2>
+  {intro && <p class="mt-5 max-w-xl text-lg text-muted">{intro}</p>}
+</div>
