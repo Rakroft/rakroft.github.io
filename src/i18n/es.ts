@@ -27,6 +27,8 @@ export const es = {
     contact: 'Contacto',
     menu: 'Menú',
     language: 'Idioma',
+    main: 'Principal',
+    skip: 'Saltar al contenido',
   },
   theme: { toggle: 'Cambiar entre modo claro y oscuro' },
   hero: {
@@ -65,6 +67,7 @@ export const es = {
     ],
   },
   projects: {
+    filterLabel: 'Filtrar proyectos por categoría',
     title: 'Proyectos',
     intro: 'Laboratorios, scripts y webs en los que pongo en práctica lo que aprendo.',
     filters: { all: 'Todo', sistemas: 'Sistemas', redes: 'Redes', python: 'Python', web: 'Web' },
@@ -189,7 +192,6 @@ export const es = {
     ],
   },
   contact: {
-    kicker: 'Contacto',
     title: '¿Hablamos?',
     text: 'Si buscas a alguien para prácticas o un puesto junior en sistemas, redes o soporte IT, escríbeme. Estaré encantado de hablar contigo.',
     emailLabel: 'Escríbeme',

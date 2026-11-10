@@ -2,6 +2,12 @@
 // Barra fija en el borde derecho con los contactos (visible desde tablet en adelante).
 import Icon from './Icon.astro';
 import { contact } from '../data/contact';
+import { useT, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const t = useT(Astro.props.lang);
 
 const links = [
   { href: contact.github, label: 'GitHub', icon: 'github' as const, external: true },
@@ -12,7 +18,7 @@ const links = [
 
 <aside
   class="fixed right-5 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center gap-5 md:flex lg:right-8"
-  aria-label="Contacto"
+  aria-label={t.nav.contact}
 >
   <span class="h-20 w-px bg-line"></span>
   <ul class="flex flex-col items-center gap-4">

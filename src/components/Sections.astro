@@ -14,6 +14,7 @@ const t = useT(lang);
 const container = 'mx-auto max-w-6xl px-6 md:pl-16 md:pr-28';
 ---
 
+<main id="main" tabindex="-1" class="outline-none">
 <!-- HERO -->
 <section id="top" class={`${container} flex min-h-svh flex-col justify-end pb-14 pt-28 md:pb-16`}>
   <div class="flex flex-1 flex-col justify-center">
@@ -48,7 +49,6 @@ const container = 'mx-auto max-w-6xl px-6 md:pl-16 md:pr-28';
   </dl>
 </section>
 
-<main>
   <!-- 01 SOBRE MÍ -->
   <section id="about" class={`${container} py-28 md:py-40`}>
     <SectionHeading n="01" title={t.about.title} />
@@ -85,6 +85,7 @@ const container = 'mx-auto max-w-6xl px-6 md:pl-16 md:pr-28';
         client:visible
         projects={t.projects.items}
         filters={t.projects.filters}
+        filterLabel={t.projects.filterLabel}
         codeLabel={t.projects.code}
         siteLabel={t.projects.site}
       />

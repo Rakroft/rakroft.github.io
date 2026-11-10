@@ -11,6 +11,11 @@ permissions:
   pages: write
   id-token: write
 
+# Evita que dos despliegues se pisen si haces varios push seguidos
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest

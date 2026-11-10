@@ -77,14 +77,14 @@ body {
   inset: -6%;
   z-index: -1;
   pointer-events: none;
-  background-image: var(--marble-light);
+  background-image: url('/marble-light.svg');
   background-size: cover;
   background-position: center;
   animation: marble-drift 90s ease-in-out infinite alternate;
   will-change: transform;
 }
 :root[data-theme="dark"] .marble {
-  background-image: var(--marble-dark);
+  background-image: url('/marble-dark.svg');
 }
 @keyframes marble-drift {
   from { transform: scale(1) translate3d(0, 0, 0); }

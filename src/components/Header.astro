@@ -28,7 +28,7 @@ const langs: Lang[] = ['es', 'en'];
       <span class="hidden text-sm font-medium tracking-tight sm:inline">Adrián Ortega</span>
     </a>
 
-    <nav class="hidden lg:block" aria-label="Principal">
+    <nav class="hidden lg:block" aria-label={t.nav.main}>
       <ul class="flex items-center gap-8 text-sm">
         {nav.map((item) => (
           <li>
@@ -45,7 +45,7 @@ const langs: Lang[] = ['es', 'en'];
     </nav>
 
     <div class="flex items-center gap-1 sm:gap-2">
-      <div class="hidden items-center text-xs tracking-wide sm:flex" aria-label={t.nav.language}>
+      <div class="hidden items-center text-xs tracking-wide sm:flex" role="group" aria-label={t.nav.language}>
         {langs.map((l, i) => (
           <>
             {i > 0 && <span class="text-line">/</span>}
@@ -89,7 +89,7 @@ const langs: Lang[] = ['es', 'en'];
             </div>
             <div class="flex gap-2 text-xs uppercase">
               {langs.map((l) => (
-                <a href={homePath(l)} hreflang={l} class:list={[l === lang ? 'font-semibold' : 'text-muted']}>{l}</a>
+                <a href={homePath(l)} hreflang={l} aria-current={l === lang ? 'page' : undefined} class:list={[l === lang ? 'font-semibold' : 'text-muted']}>{l}</a>
               ))}
             </div>
           </div>

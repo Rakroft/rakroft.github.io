@@ -39,8 +39,8 @@ const year = new Date().getFullYear();
 
     <div class="flex items-start justify-between gap-6 md:flex-col md:items-end">
       <div class="flex gap-3 text-xs uppercase tracking-wide">
-        <a href={homePath('es')} hreflang="es" class:list={[lang === 'es' ? 'font-semibold' : 'text-muted hover:text-ink']}>Español</a>
-        <a href={homePath('en')} hreflang="en" class:list={[lang === 'en' ? 'font-semibold' : 'text-muted hover:text-ink']}>English</a>
+        <a href={homePath('es')} hreflang="es" aria-current={lang === 'es' ? 'page' : undefined} class:list={[lang === 'es' ? 'font-semibold' : 'text-muted hover:text-ink']}>Español</a>
+        <a href={homePath('en')} hreflang="en" aria-current={lang === 'en' ? 'page' : undefined} class:list={[lang === 'en' ? 'font-semibold' : 'text-muted hover:text-ink']}>English</a>
       </div>
       <a href="#top" class="link-line inline-flex items-center gap-1.5 pb-0.5 text-sm">
         {t.footer.top}<Icon name="arrow-up" class="size-4" />

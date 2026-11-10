@@ -6,6 +6,7 @@ import type { Category, Project } from '../i18n/es';
 interface Props {
   projects: Project[];
   filters: Record<'all' | Category, string>;
+  filterLabel: string;
   codeLabel: string;
   siteLabel: string;
 }
@@ -18,7 +19,7 @@ const Arrow = () => (
   </svg>
 );
 
-export default function ProjectGrid({ projects, filters, codeLabel, siteLabel }: Props) {
+export default function ProjectGrid({ projects, filters, filterLabel, codeLabel, siteLabel }: Props) {
   const [active, setActive] = useState<Filter>('all');
   const order: Filter[] = ['all', 'sistemas', 'redes', 'python', 'web'];
   const visible = projects
@@ -27,7 +28,7 @@ export default function ProjectGrid({ projects, filters, codeLabel, siteLabel }:
 
   return (
     <div>
-      <div className="mb-10 flex flex-wrap gap-2" role="group">
+      <div className="mb-10 flex flex-wrap gap-2" role="group" aria-label={filterLabel}>
         {order.map((f) => (
           <button
             key={f}

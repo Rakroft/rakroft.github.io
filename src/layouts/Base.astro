@@ -1,6 +1,10 @@
 ---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
 import '../styles/global.css';
-import { marbleLight, marbleDark } from '../lib/marble';
 import type { Lang } from '../i18n/utils';
 import { useT } from '../i18n/utils';
 
@@ -17,7 +21,7 @@ const alternates = [
 ---
 
 <!doctype html>
-<html lang={lang} style={`--marble-light:${marbleLight};--marble-dark:${marbleDark}`}>
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,19 +29,16 @@ const alternates = [
     <meta name="description" content={t.meta.description} />
     <link rel="canonical" href={canonical.href} />
     {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={alternates[0].href} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={t.meta.title} />
     <meta property="og:description" content={t.meta.description} />
     <meta property="og:url" content={canonical.href} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_ES'} />
+    <meta name="twitter:card" content="summary" />
     <meta name="theme-color" content="#ecebe8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap"
-    />
 
     <!-- Se ejecuta antes de pintar: elige el tema (guardado o del sistema) para que no haya parpadeo -->
     <script is:inline>
@@ -48,10 +49,20 @@ const alternates = [
         try { saved = localStorage.getItem('theme'); } catch (e) {}
         var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
         d.dataset.theme = dark ? 'dark' : 'light';
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', dark ? '#141413' : '#ecebe8');
+        // Red de seguridad: si el JS principal no llega a cargar, se muestra todo el contenido igualmente
+        setTimeout(function () {
+          if (!d.classList.contains('reveal-ready')) d.classList.remove('js');
+        }, 3000);
       })();
     </script>
   </head>
   <body class="min-h-screen overflow-x-hidden bg-paper font-sans text-ink antialiased">
+    <a
+      href="#main"
+      class="sr-only z-50 rounded-full bg-ink px-5 py-2.5 text-sm text-paper focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+    >{t.nav.skip}</a>
     <div class="marble" aria-hidden="true"></div>
     <slot />
 
@@ -60,6 +71,7 @@ const alternates = [
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       // 1) Aparición suave de los bloques marcados con data-reveal
+      document.documentElement.classList.add('reveal-ready');
       const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');
       if (reduce || !('IntersectionObserver' in window)) {
         revealEls.forEach((el) => el.classList.add('is-visible'));
@@ -92,9 +104,11 @@ const alternates = [
           (entries) => {
             entries.forEach((entry) => {
               if (!entry.isIntersecting) return;
-              links.forEach((a) =>
-                a.toggleAttribute('aria-current', a.getAttribute('href') === `#${entry.target.id}`),
-              );
+              // Al volver al inicio (#top) ningún enlace coincide y se desmarcan todos
+              links.forEach((a) => {
+                if (a.getAttribute('href') === `#${entry.target.id}`) a.setAttribute('aria-current', 'location');
+                else a.removeAttribute('aria-current');
+              });
             });
           },
           { rootMargin: '-45% 0px -50% 0px' },
@@ -102,9 +116,23 @@ const alternates = [
         sections.forEach((s) => spy.observe(s));
       }
 
-      // 4) Cierra el menú móvil al pulsar un enlace
-      document.querySelectorAll<HTMLDetailsElement>('[data-mobile-menu]').forEach((menu) => {
+      // 4) Cierra el menú móvil al pulsar un enlace, al pulsar fuera o con Escape
+      const menus = document.querySelectorAll<HTMLDetailsElement>('[data-mobile-menu]');
+      menus.forEach((menu) => {
         menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => (menu.open = false)));
+      });
+      document.addEventListener('click', (e) => {
+        menus.forEach((m) => {
+          if (m.open && !m.contains(e.target as Node)) m.open = false;
+        });
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        menus.forEach((m) => {
+          if (!m.open) return;
+          m.open = false;
+          m.querySelector('summary')?.focus();
+        });
       });
     </script>
   </body>

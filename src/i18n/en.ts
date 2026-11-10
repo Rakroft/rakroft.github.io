@@ -15,6 +15,8 @@ export const en: Dict = {
     contact: 'Contact',
     menu: 'Menu',
     language: 'Language',
+    main: 'Main',
+    skip: 'Skip to content',
   },
   theme: { toggle: 'Toggle light and dark mode' },
   hero: {
@@ -53,6 +55,7 @@ export const en: Dict = {
     ],
   },
   projects: {
+    filterLabel: 'Filter projects by category',
     title: 'Projects',
     intro: 'Labs, scripts and websites where I put what I learn into practice.',
     filters: { all: 'All', sistemas: 'Systems', redes: 'Networking', python: 'Python', web: 'Web' },
@@ -177,7 +180,6 @@ export const en: Dict = {
     ],
   },
   contact: {
-    kicker: 'Contact',
     title: "Let's talk",
     text: "If you're looking for an intern or a junior profile in systems, networking or IT support, drop me a line. I'd be happy to chat.",
     emailLabel: 'Write to me',

@@ -1,4 +1,4 @@
-// Genera el fondo de mármol como una imagen SVG (sin archivos de imagen).
+// Genera el fondo de mármol como una imagen SVG. Se publica como /marble-light.svg y /marble-dark.svg\n// (ver src/pages/*.svg.ts) para que el navegador la guarde en caché.
 // 1) Una capa de "nubes" suaves con feTurbulence.
 // 2) Unas líneas diagonales que se deforman con ruido (feDisplacementMap) => vetas.
 
@@ -51,7 +51,7 @@ function marbleSvg(opts: { paper: string; cloud: string; vein: string; cloudOpac
 <g fill="none" stroke="${opts.vein}" opacity="${opts.veinOpacity}" filter="url(#warp)">${veinPaths}</g>
 <g fill="none" stroke="${opts.vein}" opacity="${(opts.veinOpacity * 0.6).toFixed(2)}" filter="url(#warp2)" transform="translate(1600 0) scale(-1 1)">${veinPaths}</g>
 </svg>`;
-  return `url("data:image/svg+xml,${encodeURIComponent(svg.replace(/\n/g, ''))}")`;
+  return svg.replace(/\n/g, '');
 }
 
 export const marbleLight = marbleSvg({
